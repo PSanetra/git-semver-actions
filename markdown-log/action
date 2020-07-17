@@ -1,0 +1,20 @@
+#!/bin/sh -ex
+
+git fetch --prune --prune-tags --tags
+
+GIT_SEMVER_ARGS=""
+
+if [ "${EXCLUDE_PRE_RELEASES}" == "true" ]; then
+  GIT_SEMVER_ARGS="--exclude-pre-releases"
+fi
+
+if [ ! -z "${VERSION}" ] && [ "${VERSION}" != "next" ]; then
+  GIT_SEMVER_ARGS="${GIT_SEMVER_ARGS} ${VERSION}"
+fi
+
+CHANGELOG="$(git-semver log ${GIT_SEMVER_ARGS} --markdown)"
+CHANGELOG="${CHANGELOG//'%'/'%25'}"
+CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+
+echo "::set-output name=changelog::${CHANGELOG}"

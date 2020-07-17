@@ -1,0 +1,20 @@
+name: 'Get Changelog'
+description: 'Returns the changelog, formatted as markdown.'
+inputs:
+  version:
+    required: false
+    description: 'specifies the version of which the changelog should be returned.'
+    default: 'next'
+  exclude-pre-releases:
+    required: false
+    description: 'specifies if the changelog should exclude changes of preceding pre-release versions (true|false)'
+    default: 'false'
+outputs:
+  changelog:
+    description: 'The markdown changelog'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    VERSION: ${{ inputs.version }}
+    EXCLUDE_PRE_RELEASES: ${{ inputs.exclude-pre-releases }}
