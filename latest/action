@@ -1,8 +1,11 @@
 #!/bin/sh -ex
 
-git fetch --tags
-
 GIT_SEMVER_ARGS=""
+
+if [ -f $(git rev-parse --git-dir)/shallow ]; then
+  echo "Shallow repositories are not supported! Please checkout with fetch-depth 0."
+  exit 1
+fi
 
 if [ "${INCLUDE_PRE_RELEASES}" == "true" ]; then
   GIT_SEMVER_ARGS="--include-pre-releases"

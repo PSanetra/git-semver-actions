@@ -1,6 +1,9 @@
 #!/bin/sh -ex
 
-git fetch --prune --prune-tags --tags
+if [ -f $(git rev-parse --git-dir)/shallow ]; then
+  echo "Shallow repositories are not supported! Please checkout with fetch-depth 0."
+  exit 1
+fi
 
 GIT_SEMVER_ARGS=""
 

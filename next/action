@@ -1,14 +1,10 @@
 #!/bin/sh -ex
 
-git fetch --prune --prune-tags --tags
 LATEST_VERSION="$(git semver latest)"
 
 if [ -f $(git rev-parse --git-dir)/shallow ]; then
-  if git tag | grep "v${LATEST_VERSION}"; then
-    git fetch --shallow-exclude="v${LATEST_VERSION}"
-  else
-    git fetch --unshallow
-  fi
+  echo "Shallow repositories are not supported! Please checkout with fetch-depth 0."
+  exit 1
 fi
 
 NEXT_VERSION="$(git semver next)"
