@@ -8,4 +8,4 @@ if [ -f $(git rev-parse --git-dir)/shallow ]; then
 fi
 
 NEXT_VERSION="$(git semver next)"
-echo "::set-output name=version::${NEXT_VERSION}"
+echo "version=${NEXT_VERSION}" >> $GITHUB_OUTPUT

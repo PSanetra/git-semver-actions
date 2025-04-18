@@ -16,8 +16,9 @@ if [ ! -z "${VERSION}" ] && [ "${VERSION}" != "next" ]; then
 fi
 
 CHANGELOG="$(git-semver log ${GIT_SEMVER_ARGS} --markdown)"
-CHANGELOG="${CHANGELOG//'%'/'%25'}"
-CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
-CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
 
-echo "::set-output name=changelog::${CHANGELOG}"
+{
+  echo "changelog<<CHANGELOGEOF"
+  echo "${CHANGELOG}"
+  echo "CHANGELOGEOF"
+} >> $GITHUB_OUTPUT
